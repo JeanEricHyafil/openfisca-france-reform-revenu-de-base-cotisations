@@ -174,6 +174,7 @@ def build_reform(tax_benefit_system):
 
         def function(self, simulation, period):
             period = period
+            hsup = simulation.calculate('hsup', period)
             salnet = simulation.calculate('salnet', period)
             primes_fonction_publique = simulation.calculate('primes_fonction_publique', period)
             indemnite_residence = simulation.calculate('indemnite_residence', period)
