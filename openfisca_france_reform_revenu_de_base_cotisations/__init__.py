@@ -35,7 +35,7 @@ from openfisca_france.model.base import *
 # Build function
 
 def build_reform(tax_benefit_system):
-    ReformeCotisationsRDB = reforms.new_simple_reform_class(
+    ReformeCotisationsRDB = reforms.make_reform(
         name = u"Réforme des cotisations pour un Revenu de base",
         reference = tax_benefit_system,
         )
