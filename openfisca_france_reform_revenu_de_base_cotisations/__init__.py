@@ -191,4 +191,4 @@ def build_reform(tax_benefit_system):
                 )
 
 
-    return ReformeCotisationsRDB
+    return ReformeCotisationsRDB()
