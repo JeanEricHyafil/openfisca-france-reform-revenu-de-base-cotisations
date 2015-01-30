@@ -25,11 +25,8 @@
 
 from __future__ import division
 
-import copy
-
-from openfisca_core import columns, formulas, reforms
-from openfisca_france import entities, model
-from openfisca_france.model.base import *
+from openfisca_core import reforms
+from openfisca_france.model.base import FloatCol, Individus, SimpleFormulaColumn
 
 
 # Build function
@@ -39,7 +36,6 @@ def build_reform(tax_benefit_system):
         name = u"Réforme des cotisations pour un Revenu de base",
         reference = tax_benefit_system,
         )
-
 
     @ReformeCotisationsRDB.formula
     class cotisations_contributives(SimpleFormulaColumn):
@@ -53,7 +49,8 @@ def build_reform(tax_benefit_system):
             apec_employeur = simulation.calculate('apec_employeur', period)
             arrco_tranche_a_employeur = simulation.calculate('arrco_tranche_a_employeur', period)
             assedic_employeur = simulation.calculate('assedic_employeur', period)
-            cotisation_exceptionnelle_temporaire_employeur = simulation.calculate('cotisation_exceptionnelle_temporaire_employeur', period)
+            cotisation_exceptionnelle_temporaire_employeur = simulation.calculate(
+                'cotisation_exceptionnelle_temporaire_employeur', period)
             fonds_emploi_hospitalier = simulation.calculate('fonds_emploi_hospitalier', period)
             ircantec_employeur = simulation.calculate('ircantec_employeur', period)
             pension_civile_employeur = simulation.calculate('pension_civile_employeur', period)
@@ -68,7 +65,8 @@ def build_reform(tax_benefit_system):
             apec_employe = simulation.calculate('apec_employe', period)
             arrco_tranche_a_employe = simulation.calculate('arrco_tranche_a_employe', period)
             assedic_employe = simulation.calculate('assedic_employe', period)
-            cotisation_exceptionnelle_temporaire_employe = simulation.calculate('cotisation_exceptionnelle_temporaire_employe', period)
+            cotisation_exceptionnelle_temporaire_employe = simulation.calculate(
+                'cotisation_exceptionnelle_temporaire_employe', period)
             ircantec_employe = simulation.calculate('ircantec_employe', period)
             pension_civile_employe = simulation.calculate('pension_civile_employe', period)
             rafp_employe = simulation.calculate('rafp_employe', period)
@@ -110,7 +108,6 @@ def build_reform(tax_benefit_system):
                 )
             return period, cotisations_contributives
 
-
     @ReformeCotisationsRDB.formula
     class nouv_salbrut(SimpleFormulaColumn):
         reference = tax_benefit_system.column_by_name['salbrut']
@@ -129,7 +126,6 @@ def build_reform(tax_benefit_system):
                 )
             return period, nouv_salbrut
 
-
     @ReformeCotisationsRDB.formula
     class nouv_csg(SimpleFormulaColumn):
         reference = tax_benefit_system.column_by_name['csgsali']
@@ -144,7 +140,6 @@ def build_reform(tax_benefit_system):
                 -0.225 * nouv_salbrut
                 )
             return period, nouv_csg
-
 
     @ReformeCotisationsRDB.formula
     class salnet(SimpleFormulaColumn):
@@ -163,14 +158,12 @@ def build_reform(tax_benefit_system):
                 )
             return period, salnet
 
-
     @ReformeCotisationsRDB.formula
     class sal(SimpleFormulaColumn):
         reference = tax_benefit_system.column_by_name['sal']
 
         # Nous sommes partis du nouveau salaire net et par rapport au salaire imposable actuel,
         # nous avons supprimé : les heures sup, la déductibilité de CSG
-
 
         def function(self, simulation, period):
             period = period
@@ -189,6 +182,5 @@ def build_reform(tax_benefit_system):
                 hsup +
                 rev_microsocial_declarant1
                 )
-
 
     return ReformeCotisationsRDB()
