@@ -44,7 +44,7 @@ doc_lines = __doc__.split('\n')
 
 setup(
     name = 'OpenFisca-France-Reform-Cotisations-Revenu-De-Base',
-    version = '0.1dev',
+    version = '0.1.dev0',
 
     author = 'Jean-Eric Hyafil, Raihere Maruhi, Aurélie Hampel',
     author_email = 'jehyafil@yahoo.fr',
