@@ -32,12 +32,12 @@ from openfisca_france.model.base import FloatCol, Individus, SimpleFormulaColumn
 # Build function
 
 def build_reform(tax_benefit_system):
-    ReformeCotisationsRDB = reforms.make_reform(
+    Reform = reforms.make_reform(
         name = u"Réforme des cotisations pour un Revenu de base",
         reference = tax_benefit_system,
         )
 
-    @ReformeCotisationsRDB.formula
+    @Reform.formula
     class cotisations_contributives(SimpleFormulaColumn):
         column = FloatCol
         entity_class = Individus
@@ -108,7 +108,7 @@ def build_reform(tax_benefit_system):
                 )
             return period, cotisations_contributives
 
-    @ReformeCotisationsRDB.formula
+    @Reform.formula
     class nouv_salbrut(SimpleFormulaColumn):
         reference = tax_benefit_system.column_by_name['salbrut']
 
@@ -126,7 +126,7 @@ def build_reform(tax_benefit_system):
                 )
             return period, nouv_salbrut
 
-    @ReformeCotisationsRDB.formula
+    @Reform.formula
     class nouv_csg(SimpleFormulaColumn):
         reference = tax_benefit_system.column_by_name['csgsali']
 
@@ -141,7 +141,7 @@ def build_reform(tax_benefit_system):
                 )
             return period, nouv_csg
 
-    @ReformeCotisationsRDB.formula
+    @Reform.formula
     class salnet(SimpleFormulaColumn):
         reference = tax_benefit_system.column_by_name['salnet']
 
@@ -158,7 +158,7 @@ def build_reform(tax_benefit_system):
                 )
             return period, salnet
 
-    @ReformeCotisationsRDB.formula
+    @Reform.formula
     class sal(SimpleFormulaColumn):
         reference = tax_benefit_system.column_by_name['sal']
 
@@ -183,4 +183,4 @@ def build_reform(tax_benefit_system):
                 rev_microsocial_declarant1
                 )
 
-    return ReformeCotisationsRDB()
+    return Reform()
