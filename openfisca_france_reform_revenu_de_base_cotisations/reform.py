@@ -33,6 +33,7 @@ from openfisca_france.model.base import FloatCol, Individus, SimpleFormulaColumn
 
 def build_reform(tax_benefit_system):
     Reform = reforms.make_reform(
+        key = 'revenu_de_base_cotisations',
         name = u"Réforme des cotisations pour un Revenu de base",
         reference = tax_benefit_system,
         )

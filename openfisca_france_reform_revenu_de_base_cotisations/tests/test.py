@@ -28,11 +28,11 @@ from datetime import date
 from openfisca_france.tests.base import tax_benefit_system
 from openfisca_core.tools import assert_near
 
-import openfisca_france_reform_revenu_de_base_cotisations
+from openfisca_france_reform_revenu_de_base_cotisations import build_reform
 
 
 def test():
-    reform = openfisca_france_reform_revenu_de_base_cotisations.build_reform(tax_benefit_system)
+    reform = build_reform(tax_benefit_system)
     reform_simulation = reform.new_scenario().init_single_entity(
         period = 2014,
         parent1 = dict(
