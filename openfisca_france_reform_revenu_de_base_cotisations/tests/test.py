@@ -37,11 +37,11 @@ def test():
         period = 2014,
         parent1 = dict(
             birth = date(1980, 1, 1),
-            sali = 12000,
+            salaire_imposable = 12000,
             ),
         parent2 = dict(
             birth = date(1980, 1, 1),
-            sali = 6000,
+            salaire_imposable = 6000,
             ),
         enfants = [
             dict(
@@ -63,17 +63,17 @@ def test():
         error_margin = error_margin,
         )
     assert_near(
-        reform_simulation.calculate('nouv_salbrut'),
+        reform_simulation.calculate('nouv_salaire_de_base'),
         [22192.93945312, 11096.46972656, 0],
         error_margin = error_margin,
         )
     assert_near(
-        reform_simulation.calculate('salbrut'),
+        reform_simulation.calculate('salaire_de_base'),
         [14825.93261719, 7412.96630859, 0],
         error_margin = error_margin,
         )
     assert_near(
-        reform_simulation.calculate('salnet'),
+        reform_simulation.calculate('salaire_net'),
         [17199.52734375, 8599.76367188, 0],
         error_margin = error_margin,
         )

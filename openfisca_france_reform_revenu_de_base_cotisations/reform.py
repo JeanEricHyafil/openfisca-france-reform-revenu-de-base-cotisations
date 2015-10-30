@@ -110,8 +110,8 @@ def build_reform(tax_benefit_system):
             return period, cotisations_contributives
 
     @Reform.formula
-    class nouv_salbrut(SimpleFormulaColumn):
-        reference = tax_benefit_system.column_by_name['salbrut']
+    class nouv_salaire_de_base(SimpleFormulaColumn):
+        reference = tax_benefit_system.column_by_name['salaire_de_base']
 
         # Le salaire brut se définit dans la réforme comme le salaire super-brut auquel
         # on retranche les cotisations contributives
@@ -121,47 +121,47 @@ def build_reform(tax_benefit_system):
             salsuperbrut = simulation.calculate('salsuperbrut', period)
             cotisations_contributives = simulation.calculate('cotisations_contributives', period)
 
-            nouv_salbrut = (
+            nouv_salaire_de_base = (
                 salsuperbrut -
                 cotisations_contributives
                 )
-            return period, nouv_salbrut
+            return period, nouv_salaire_de_base
 
     @Reform.formula
     class nouv_csg(SimpleFormulaColumn):
-        reference = tax_benefit_system.column_by_name['csgsali']
+        reference = tax_benefit_system.column_by_name['csg_imposable_salaire']
 
         # On applique une CSG unique à 22,5% qui finance toutes les prestations non-contributives
 
         def function(self, simulation, period):
             period = period.start.period('month').offset('first-of')
-            nouv_salbrut = simulation.calculate('nouv_salbrut', period)
+            nouv_salaire_de_base = simulation.calculate('nouv_salaire_de_base', period)
 
             nouv_csg = (
-                -0.225 * nouv_salbrut
+                -0.225 * nouv_salaire_de_base
                 )
             return period, nouv_csg
 
     @Reform.formula
-    class salnet(SimpleFormulaColumn):
-        reference = tax_benefit_system.column_by_name['salnet']
+    class salaire_net(SimpleFormulaColumn):
+        reference = tax_benefit_system.column_by_name['salaire_net']
 
         # On retire la nouvelle CSG (pas celle qui finance le RDB) pour trouver le nouveau salaire net
 
         def function(self, simulation, period):
             period = period.start.period('month').offset('first-of')
-            nouv_salbrut = simulation.calculate('nouv_salbrut', period)
+            nouv_salaire_de_base = simulation.calculate('nouv_salaire_de_base', period)
             nouv_csg = simulation.calculate('nouv_csg', period)
 
-            salnet = (
-                nouv_salbrut +
+            salaire_net = (
+                nouv_salaire_de_base +
                 nouv_csg
                 )
-            return period, salnet
+            return period, salaire_net
 
     @Reform.formula
-    class sal(SimpleFormulaColumn):
-        reference = tax_benefit_system.column_by_name['sal']
+    class salaire_imposable(SimpleFormulaColumn):
+        reference = tax_benefit_system.column_by_name['salaire_imposable']
 
         # Nous sommes partis du nouveau salaire net et par rapport au salaire imposable actuel,
         # nous avons supprimé : les heures sup, la déductibilité de CSG
@@ -169,14 +169,14 @@ def build_reform(tax_benefit_system):
         def function(self, simulation, period):
             period = period
             hsup = simulation.calculate('hsup', period)
-            salnet = simulation.calculate('salnet', period)
+            salaire_net = simulation.calculate('salaire_net', period)
             primes_fonction_publique = simulation.calculate('primes_fonction_publique', period)
             indemnite_residence = simulation.calculate('indemnite_residence', period)
             supp_familial_traitement = simulation.calculate('supp_familial_traitement', period)
             rev_microsocial_declarant1 = simulation.calculate('rev_microsocial_declarant1', period)
 
             return period, (
-                salnet +
+                salaire_net +
                 primes_fonction_publique +
                 indemnite_residence +
                 supp_familial_traitement +
