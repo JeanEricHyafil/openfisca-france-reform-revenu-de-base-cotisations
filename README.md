@@ -4,7 +4,7 @@
 
 This is the source code of an extension of OpenFisca.
 
-Please consult http://www.openfisca.fr/documentation
+Please consult http://doc.openfisca.fr/
 
 Basculement des cotisations non-contributives vers la CSG et suppression des exonérations Fillon
 
