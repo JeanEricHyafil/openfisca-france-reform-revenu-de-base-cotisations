@@ -1,15 +1,5 @@
-# Extension OpenFisca pour les cotisations revenu de base
+# Attention
 
-[OpenFisca](http://www.openfisca.fr/) is a versatile microsimulation free software.
+Ce dépôt est périmé, veuillez vous rendre ici :
 
-This is the source code of an extension of OpenFisca.
-
-Please consult http://doc.openfisca.fr/
-
-Basculement des cotisations non-contributives vers la CSG et suppression des exonérations Fillon
-
-## Tests
-
-```
-nosetests
-```
+https://github.com/openfisca/openfisca-france-extension-revenu-de-base
